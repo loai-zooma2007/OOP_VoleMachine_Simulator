@@ -1,6 +1,7 @@
 #include "Machine.hpp"
 
 // screen class
+Screen::Screen() { buffer = ""; }
 void Screen::onWrite(int value)
 {
     buffer += static_cast<char>(value);
@@ -11,28 +12,37 @@ void Screen::clear() { buffer = ""; }
 // memory class
 int Memory::read(int addr)
 {
+    if (addr < 0 || addr > 255)
+        return 0;
+
     return cells[addr];
 }
 void Memory::write(int addr, int v)
 {
-    if (device.find(addr) != device.end())
+    if (addr < 0 || addr > 255)
+        return;
+
+    auto it = device.find(addr);
+
+    if (it != device.end() && it->second != nullptr)
     {
-        device[addr]->onWrite(v);
+        it->second->onWrite(v);
     }
-    else
-    {
-        cells[addr] = v;
-    }
+    cells[addr] = v;
 }
 void Memory::writeBlock(int start, int data[], int Size)
 {
     for (int i = 0; i < Size; i++)
     {
-        cells[i + start] = data[i];
+        if (start + i < 256)
+            cells[i + start] = data[i];
     }
 }
 void Memory::mapDevice(int addr, MemoryMappedDevice *d)
 {
+    if (addr < 0 || addr > 255)
+        return;
+
     device[addr] = d;
 }
 void Memory::clear()
@@ -44,18 +54,46 @@ void Memory::clear()
 }
 
 // InstructionDecoder
-Instruction instructionDecoder::decode(int word)
+Instruction InstructionDecoder::decode(int word)
 {
 }
-bool instructionDecoder::validate(int word)
+bool InstructionDecoder::validate(int word)
 {
     return word >= 0 && word <= 65535;
+}
+
+// register classes
+Register::Register() { value = 0; }
+int Register::get() { return value; }
+void Register::set(int v) { value = v; }
+
+int RegisterFile::get(int n)
+{
+    if (n < 0 || n > 16)
+        return 0;
+    return regs[n].get();
+}
+void RegisterFile::set(int n, int v)
+{
+    if (n < 0 || n > 16)
+        return;
+    return regs[n].set(v);
+}
+void RegisterFile::clear()
+{
+    for (int i = 0; i < 16; i++)
+    {
+        regs[i].set(0);
+    }
 }
 
 // vole machine class
 void VoleMachine::loadProgram(std::string path, int start)
 {
-    // Load program into memory
+    // loading package
+
+    cpu.setPC(start);
+    cpu.halt(false);
 }
 void VoleMachine::setRegister(int n, int v)
 {

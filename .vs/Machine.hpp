@@ -23,7 +23,7 @@ public:
     int getPC();
     int getIR();
     bool isHalted();
-    void halt();
+    void halt(bool i);
     void jumpTo(int addr);
 };
 
@@ -33,6 +33,7 @@ private:
     int value;
 
 public:
+    Register();
     int get();
     void set(int v);
 };
@@ -75,6 +76,7 @@ private:
     std::string buffer;
 
 public:
+    Screen();
     virtual void onWrite(int value);
     std::string getText();
     void clear();
@@ -83,7 +85,7 @@ public:
 class Memory
 {
 private:
-    int cells[256];
+    int cells[256]{0};
     std::map<int, MemoryMappedDevice *> device;
 
 public:
@@ -94,7 +96,7 @@ public:
     void clear();
 };
 
-class instructionDecoder
+class InstructionDecoder
 {
 public:
     Instruction decode(int word);
