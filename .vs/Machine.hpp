@@ -2,6 +2,7 @@
 #define _MACHINE_HPP_
 #include <string>
 #include <map>
+#include <cmath>
 
 class Instruction
 {
@@ -30,7 +31,7 @@ public:
 class Register
 {
 private:
-    int value;
+    uint8_t value;
 
 public:
     Register();
@@ -48,6 +49,12 @@ public:
     void clear();
 };
 
+class FloatingPoint8
+{
+public:
+    double decode(int bits);
+    int encode(double value);
+};
 class ALU
 {
 public:
@@ -57,12 +64,6 @@ public:
     int bitAnd(int a, int b);
     int bitXor(int a, int b);
     int rotateRight(int v, int times);
-};
-class FloatingPoint8
-{
-public:
-    double decode(int bits);
-    int encode(double value);
 };
 
 class MemoryMappedDevice
@@ -85,7 +86,7 @@ public:
 class Memory
 {
 private:
-    int cells[256]{0};
+    uint8_t cells[256]{0};
     std::map<int, MemoryMappedDevice *> device;
 
 public:
@@ -112,6 +113,7 @@ private:
     Screen screen;
 
 public:
+    VoleMachine();
     void loadProgram(std::string path, int start);
     void setRegister(int n, int v);
     void setMemory(int addr, int v);

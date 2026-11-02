@@ -87,7 +87,16 @@ void RegisterFile::clear()
     }
 }
 
+// ALU classes
+double FloatingPoint8::decode(int bits)
+{
+}
+int FloatingPoint8::encode(double value)
+{
+}
+
 // vole machine class
+VoleMachine::VoleMachine() { memory.mapDevice(0xff, &screen); }
 void VoleMachine::loadProgram(std::string path, int start)
 {
     // loading package
