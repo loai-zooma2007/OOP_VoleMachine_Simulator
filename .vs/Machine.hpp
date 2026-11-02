@@ -89,7 +89,7 @@ private:
 public:
     int read(int addr);
     void write(int addr, int v);
-    void writeBlock(int start, int data[]);
+    void writeBlock(int start, int data[], int Size);
     void mapDevice(int addr, MemoryMappedDevice *d);
     void clear();
 };
