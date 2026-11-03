@@ -57,6 +57,9 @@ public:
 };
 class ALU
 {
+private:
+    FloatingPoint8 f8;
+
 public:
     int addTwosComplement(int a, int b);
     int addFloat(int a, int b);

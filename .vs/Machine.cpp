@@ -90,9 +90,43 @@ void RegisterFile::clear()
 // ALU classes
 double FloatingPoint8::decode(int bits)
 {
+    if (bits == 0)
+        return 0.0;
+
+    int sign = (bits & 0x80) ? 1 : -1;
+    int exp = ((bits & 0x70) >> 4) - 4;
+    double Manti = (bits & 0x0f) / 16.0;
+
+    return sign * Manti * std::pow(2.0, exp);
 }
 int FloatingPoint8::encode(double value)
 {
+    if (value == 0.0)
+        return 0x00;
+
+    int sign = (value > 0) ? 0 : 1;
+    int exp = 0;
+    double Manti = std::abs(value);
+
+    while (true)
+    {
+        if (Manti >= 1.0)
+        {
+            Manti /= 2.0;
+            exp++;
+        }
+        else if (Manti<0.5 & exp> - 4)
+        {
+            Manti *= 2.0;
+            exp--;
+        }
+        else
+            break;
+    }
+    int bitsExp = (exp + 4) & 0x07;
+    int bitsManti = (static_cast<int>(Manti * 16.0)) & 0x0f;
+
+    return (sign << 7) | (bitsExp << 4) | bitsManti;
 }
 
 // vole machine class
