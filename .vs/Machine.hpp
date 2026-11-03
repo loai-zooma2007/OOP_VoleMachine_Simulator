@@ -4,29 +4,7 @@
 #include <map>
 #include <cmath>
 
-class Instruction
-{
-};
-
-class CPU
-{
-private:
-    int PC;
-    int IR;
-    bool halted;
-
-public:
-    void fetch();
-    Instruction decode();
-    void execute(Instruction i);
-    void step();
-    void setPC(int addr);
-    int getPC();
-    int getIR();
-    bool isHalted();
-    void halt(bool i);
-    void jumpTo(int addr);
-};
+class Instruction;
 
 class Register
 {
@@ -103,17 +81,46 @@ public:
 class InstructionDecoder
 {
 public:
-    Instruction decode(int word);
+    Instruction *decode(int word);
     bool validate(int word);
 };
 
+class CPU
+{
+private:
+    int PC;
+    int IR;
+    bool halted;
+
+    RegisterFile &regfl;
+    Memory &memory;
+
+    ALU alu;
+    InstructionDecoder decoder;
+
+public:
+    CPU(RegisterFile &reg, Memory &mem);
+    void fetch();
+    Instruction *decode();
+    void execute(Instruction *i);
+    void step();
+    RegisterFile &getRegisters();
+    Memory &getMemory();
+    ALU &getALU();
+    void setPC(int addr);
+    int getPC();
+    int getIR();
+    bool isHalted();
+    void halt(bool h);
+    void jumpTo(int addr);
+};
 class VoleMachine
 {
 private:
-    CPU cpu;
     Memory memory;
     RegisterFile registers;
     Screen screen;
+    CPU cpu;
 
 public:
     VoleMachine();
