@@ -2,6 +2,7 @@
 #include <vector>
 #include <set>
 #include <map>
+#include "Instruction.h"
 #include <cstring>
 using namespace std;
 
@@ -81,7 +82,36 @@ public:
 class InstructionDecoder
 {
 public:
-    Instruction decode(int word){}
+    instruction* decode(int word){
+        if (!validate(word))
+            return nullptr;
+        int opcode = word / 4096;
+        if (opcode == 1)
+            return new loadfrommemory(word);
+        if (opcode == 2)
+            return new loadimmediate(word);
+        if (opcode == 3)
+            return new store(word);
+        if (opcode == 4)
+            return new moveinstruction(word);
+        if (opcode == 5)
+            return new addinteger(word);
+        if (opcode == 6)
+            return new addfloat(word);
+        if (opcode == 7)
+            return new orinstruction(word);
+        if (opcode == 8)
+            return new andinstruction(word);
+        if (opcode == 9)
+            return new xorinstruction(word);
+        if (opcode == 10)
+            return new rotate(word);
+        if (opcode == 11)
+            return new jumpifEqual(word);
+        if (opcode == 12)
+            return new halt(word);
+        return nullptr;
+    }
     bool validate(int word){
         return word >= 0 && word <= 65535; // FFFF (Hex) = 65535 (Dec)
     }
