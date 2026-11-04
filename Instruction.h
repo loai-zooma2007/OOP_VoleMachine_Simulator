@@ -1,55 +1,62 @@
+
 #pragma once
+
 #include <string>
+
 class CPU;
-// ==========================================
+
 // Abstract Base Class
-// ==========================================
-class instruction {
+
+class Instruction {
 protected:
     int word;
+
 public:
-    instruction(int word);
+    Instruction(int word);
+
     virtual void execute(CPU& cpu) = 0;
+
     virtual std::string describe() const = 0;
-    virtual ~instruction() = default;
+
+    virtual ~Instruction() = default;
 };
 // ==========================================
 // Logical Instructions
 // ==========================================
-class orinstruction : public instruction {
+class orInstruction : public Instruction {
 public:
-    orinstruction(int word);
+    orInstruction(int word);
     void execute(CPU& cpu) override;
     std::string describe() const override;
 };
-class andinstruction : public instruction {
+class andInstruction : public Instruction {
 public:
-    andinstruction(int word);
+    andInstruction(int word);
     void execute(CPU& cpu) override;
     std::string describe() const override;
 };
-class xorinstruction : public instruction {
+class xorInstruction : public Instruction {
 public:
-    xorinstruction(int word);
+    xorInstruction(int word);
     void execute(CPU& cpu) override;
     std::string describe() const override;
 };
 // ==========================================
 // Control Instructions
 // ==========================================
-class rotate : public instruction {
+class rotate : public Instruction {
 public:
     rotate(int word);
     void execute(CPU& cpu) override;
     std::string describe() const override;
 };
-class jumpifEqual : public instruction {
+class jumpifEqual : public Instruction {
 public:
     jumpifEqual(int word);
     void execute(CPU& cpu) override;
     std::string describe() const override;
 };
-class halt : public instruction {
+class halt : public Instruction {
 public:
     halt(int word);
     void execute(CPU& cpu) override;
@@ -58,40 +65,40 @@ public:
 // ==========================================
 // Memory & Data Transfer Instructions
 // ==========================================
-class loadfrommemory : public instruction {
+class loadfrommemory : public Instruction {
 public:
     loadfrommemory(int word);
     void execute(CPU& cpu) override;
     std::string describe() const override;
 };
-class loadimmediate : public instruction {
+class loadimmediate : public Instruction {
 public:
     loadimmediate(int word);
     void execute(CPU& cpu) override;
     std::string describe() const override;
 };
-class store : public instruction {
+class store : public Instruction {
 public:
     store(int word);
     void execute(CPU& cpu) override;
     std::string describe() const override;
 };
-class move : public instruction {
+class moveinstruction : public Instruction {
 public:
-    move(int word);
+    moveinstruction(int word);
     void execute(CPU& cpu) override;
     std::string describe() const override;
 };
 // ==========================================
 // Arithmetic Instructions
 // ==========================================
-class addinteger : public instruction {
+class addinteger : public Instruction {
 public:
     addinteger(int word);
     void execute(CPU& cpu) override;
     std::string describe() const override;
 };
-class addfloat : public instruction {
+class addfloat : public Instruction {
 public:
     addfloat(int word);
     void execute(CPU& cpu) override;
