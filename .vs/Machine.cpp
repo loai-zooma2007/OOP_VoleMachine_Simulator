@@ -1,4 +1,6 @@
 #include "Machine.hpp"
+#include "Instruction.h"
+#include <ProgramLoader.h>
 
 // screen class
 Screen::Screen() { buffer = ""; }
@@ -56,6 +58,40 @@ void Memory::clear()
 // InstructionDecoder
 Instruction *InstructionDecoder::decode(int word)
 {
+    if (!validate(word))
+        return nullptr;
+
+    int opcode = word / 4096;
+
+    switch (opcode)
+    {
+    case 1:
+        return new loadfrommemory(word);
+    case 2:
+        return new loadimmediate(word);
+    case 3:
+        return new store(word);
+    case 4:
+        return new moveinstruction(word);
+    case 5:
+        return new addinteger(word);
+    case 6:
+        return new addfloat(word);
+    case 7:
+        return new orinstruction(word);
+    case 8:
+        return new andinstruction(word);
+    case 9:
+        return new xorinstruction(word);
+    case 10:
+        return new rotate(word);
+    case 11:
+        return new jumpifEqual(word);
+    case 12:
+        return new halt(word);
+    default:
+        return nullptr;
+    }
 }
 bool InstructionDecoder::validate(int word)
 {
@@ -230,7 +266,19 @@ void CPU::jumpTo(int addr)
 VoleMachine::VoleMachine() : memory(), registers(), screen(), cpu(registers, memory) { memory.mapDevice(0xff, &screen); }
 void VoleMachine::loadProgram(std::string path, int start)
 {
-    // loading package
+    ProgramLoader loader;
+    Program program = loader.load(path);
+
+    int addr = start;
+    for (int word : program.getWords())
+    {
+        int highByte = (word >> 8) & 0xff;
+        int lowByte = word & 0xff;
+
+        memory.write(addr, highByte);
+        memory.write(addr + 1, lowByte);
+        addr += 2;
+    }
 
     cpu.setPC(start);
     cpu.halt(false);
@@ -260,4 +308,6 @@ void VoleMachine::reset()
     memory.clear();
     registers.clear();
     screen.clear();
+    cpu.setPC(0);
+    cpu.halt(false);
 }
