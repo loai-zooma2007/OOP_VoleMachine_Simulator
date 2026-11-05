@@ -3,8 +3,7 @@ cmake_minimum_required(VERSION 3.16)
 project(VoleMachine_ui VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
-set(CMAKE_PREFIX_PATH="C:/Qt/6.12.0/mingw_64/lib/cmake"${CMAKE_PREFIX_PATH})
+set(CMAKE_PREFIX_PATH "C:/Qt/6.10.0/mingw_64/lib/cmake")
 
 find_package(Qt6 REQUIRED COMPONENTS Quick)
 
@@ -16,13 +15,13 @@ if (EXISTS "${CMAKE_CURRENT_LIST_DIR}/importedcontent/CMakeLists.txt")
 endif()
 
 qt_add_executable(appVoleMachine_ui
-    main.cpp
+    simulator.cpp
 )
 
 qt_add_qml_module(appVoleMachine_ui
     URI VoleMachine_ui
     QML_FILES
-        Main.qml
+       Simulator.qml
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
