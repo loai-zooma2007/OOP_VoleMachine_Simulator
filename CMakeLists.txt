@@ -4,6 +4,8 @@ project(VoleMachine_ui VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+set(CMAKE_PREFIX_PATH="C:/Qt/6.12.0/mingw_64"${CMAKE_PREFIX_PATH})
+
 find_package(Qt6 REQUIRED COMPONENTS Quick)
 
 qt_standard_project_setup(REQUIRES 6.10)
