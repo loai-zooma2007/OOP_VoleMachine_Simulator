@@ -1,6 +1,6 @@
 #include "Machine.hpp"
 #include "Instruction.h"
-#include <ProgramLoader.h>
+#include "ProgramLoader.h"
 
 // screen class
 Screen::Screen() { buffer = ""; }
@@ -78,11 +78,11 @@ Instruction *InstructionDecoder::decode(int word)
     case 6:
         return new addfloat(word);
     case 7:
-        return new orinstruction(word);
+        return new orInstruction(word);
     case 8:
-        return new andinstruction(word);
+        return new andInstruction(word);
     case 9:
-        return new xorinstruction(word);
+        return new xorInstruction(word);
     case 10:
         return new rotate(word);
     case 11:
@@ -151,7 +151,7 @@ int FloatingPoint8::encode(double value)
             Manti /= 2.0;
             exp++;
         }
-        else if (Manti<0.5 & exp> - 4)
+        else if (Manti < 0.5 && exp > -4)
         {
             Manti *= 2.0;
             exp--;
