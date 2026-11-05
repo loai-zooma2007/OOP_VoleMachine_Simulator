@@ -93,7 +93,7 @@ Instruction *InstructionDecoder::decode(int word)
         return nullptr;
     }
 }
-bool InstructionDecoder::validate(int word)
+bool InstructionDecoder::validate(int word) const
 {
     return word >= 0 && word <= 65535;
 }

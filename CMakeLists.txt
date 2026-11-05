@@ -10,13 +10,11 @@ find_package(Qt6 REQUIRED COMPONENTS Quick)
 
 qt_standard_project_setup(REQUIRES 6.10)
 
-# Content of downloaded design from Figma to Qt or similar
-if (EXISTS "${CMAKE_CURRENT_LIST_DIR}/importedcontent/CMakeLists.txt")
-    add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/importedcontent)
-endif()
-
 qt_add_executable(appVoleMachine_ui
-    main.cpp
+    simulator.cpp
+    Machine.cpp
+    Instruction.cpp
+    ProgramLoader.cpp
 )
 
 qt_add_qml_module(appVoleMachine_ui

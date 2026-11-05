@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
         []()
         { QCoreApplication::exit(-1); },
         Qt::QueuedConnection);
-    engine.loadFromModule("VoleMachine_ui", "Main");
+    engine.loadFromModule("VoleMachine_ui", "Simulator");
 
     return QGuiApplication::exec();
 }

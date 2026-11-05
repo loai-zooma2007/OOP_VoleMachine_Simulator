@@ -2,6 +2,7 @@
 #define _MACHINE_HPP_
 #include <string>
 #include <map>
+#include <cstdint>
 #include <cmath>
 
 class Instruction;
@@ -9,7 +10,7 @@ class Instruction;
 class Register
 {
 private:
-    uint8_t value;
+    std::uint8_t value;
 
 public:
     Register();
@@ -67,7 +68,7 @@ public:
 class Memory
 {
 private:
-    uint8_t cells[256]{0};
+    std::uint8_t cells[256]{0};
     std::map<int, MemoryMappedDevice *> device;
 
 public:
@@ -82,7 +83,7 @@ class InstructionDecoder
 {
 public:
     Instruction *decode(int word);
-    bool validate(int word);
+    bool validate(int word) const;
 };
 
 class CPU
