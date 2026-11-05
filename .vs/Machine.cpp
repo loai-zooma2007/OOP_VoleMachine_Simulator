@@ -1,4 +1,4 @@
-#include "Machine.hpp"
+#include "Machine.h"
 #include "Instruction.h"
 #include "ProgramLoader.h"
 
@@ -268,6 +268,8 @@ void VoleMachine::loadProgram(std::string path, int start)
 {
     ProgramLoader loader;
     Program program = loader.load(path);
+
+    loader.validateStartAddress(start, program.Size());
 
     int addr = start;
     for (int word : program.getWords())
