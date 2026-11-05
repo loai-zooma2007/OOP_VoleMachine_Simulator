@@ -28,4 +28,4 @@ class ProgramFormatException : public VoleException
 public:
     explicit ProgramFormatException(const std::string &msg) : VoleException(msg) {}
 };
-endif // ERRORS_H
+#endif // ERRORS_H

@@ -1,9 +1,9 @@
 #include "ProgramLoader.h"
 #include "Errors.h"
-#include "Memory.h"
 #include <cctype>
 #include <cstdlib>
 #include <fstream>
+#include <vector>
 
 std::string ProgramLoader::parseLine(const std::string &line) const
 {
@@ -52,8 +52,8 @@ Program ProgramLoader::load(const std::string &path) const
 
 void ProgramLoader::validateStartAddress(int start, int count) const
 {
-    if (start < 0 || start > 0xF2 || start % 2 != 0)
-        throw InvalidAddressException("Start address must be even and between 00 and F2");
-    if (start + 2 * count > Memory::SIZE)
+    if (start < 0 || start > 0xFE || start % 2 != 0)
+        throw InvalidAddressException("Start address must be even and between 00 and FE");
+    if (start + 2 * count > 256)
         throw InvalidAddressException("The program does not fit in memory at that address");
 }
