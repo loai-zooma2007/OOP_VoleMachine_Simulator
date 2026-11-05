@@ -194,9 +194,9 @@ void moveinstruction::execute(CPU &cpu)
     int r = (word >> 4) & 0xF;
     int s = word & 0xF;
 
-    int value = cpu.getRegisters().get(s);
+    int value = cpu.getRegisters().get(r);
 
-    cpu.getRegisters().set(r, value);
+    cpu.getRegisters().set(s, value);
 }
 // ==========================================
 // Arithmetic Instructions
