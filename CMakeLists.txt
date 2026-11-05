@@ -2,8 +2,9 @@ cmake_minimum_required(VERSION 3.16)
 
 project(VoleMachine_ui VERSION 0.1 LANGUAGES CXX)
 
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_PREFIX_PATH "C:/Qt/6.10.0/mingw_64/lib/cmake")
+set(CMAKE_PREFIX_PATH "C:/Qt/6.12.0/mingw_64")
 
 find_package(Qt6 REQUIRED COMPONENTS Quick)
 
@@ -15,7 +16,7 @@ if (EXISTS "${CMAKE_CURRENT_LIST_DIR}/importedcontent/CMakeLists.txt")
 endif()
 
 qt_add_executable(appVoleMachine_ui
-    simulator.cpp
+    main.cpp
 )
 
 qt_add_qml_module(appVoleMachine_ui
