@@ -3,7 +3,6 @@
 #include <cctype>
 #include <cstdlib>
 #include <fstream>
-#include <vector>
 
 std::string ProgramLoader::parseLine(const std::string &line) const
 {

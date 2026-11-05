@@ -1,6 +1,7 @@
 #ifndef PROGRAMLOADER_H
 #define PROGRAMLOADER_H
 #include <string>
+#include <vector>
 #include "Machine.h"
 
 class Program
