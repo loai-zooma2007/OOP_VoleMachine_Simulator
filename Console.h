@@ -1,10 +1,12 @@
 #ifndef CONSOLE_H
 #define CONSOLE_H
+
 #include <QObject>
 #include <QString>
 #include <QStringList>
 #include <QUrl>
 #include "Machine.h"
+#include "Errors.h"
 
 class Console : public QObject
 {

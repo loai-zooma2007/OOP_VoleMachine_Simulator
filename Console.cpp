@@ -17,9 +17,7 @@ QStringList Console::registers()
     auto &regs = machine.getRegisters();
     for (int i = 0; i < 16; ++i)
     {
-        list << QString("R%1: 0x%2")
-                    .arg(QString::number(i, 16).toUpper())
-                    .arg(QString::number(regs.get(i), 16).rightJustified(2, '0').toUpper());
+        list << QString::number(regs.get(i), 16).rightJustified(2, '0').toUpper();
     }
     return list;
 }
