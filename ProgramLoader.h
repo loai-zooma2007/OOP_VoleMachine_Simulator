@@ -1,8 +1,7 @@
 #ifndef PROGRAMLOADER_H
 #define PROGRAMLOADER_H
 #include <vector>
-#include "Machine.h"
-
+#include "Instruction.h"
 class Program
 {
 private:

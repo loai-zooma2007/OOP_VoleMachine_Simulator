@@ -13,14 +13,9 @@ qt_standard_project_setup(REQUIRES 6.10)
 qt_add_executable(appVoleMachine_ui
     simulator.cpp
     Machine.cpp
-    Machine.h
     Instruction.cpp
-    Instruction.h
     ProgramLoader.cpp
-    ProgramLoader.h
-    Errors.h
     Console.cpp
-    Console.h
 )
 
 qt_add_qml_module(appVoleMachine_ui

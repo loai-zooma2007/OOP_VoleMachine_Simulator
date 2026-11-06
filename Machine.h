@@ -80,14 +80,6 @@ public:
     void mapDevice(int addr, MemoryMappedDevice *d);
     void clear();
 };
-
-class InstructionDecoder
-{
-public:
-    Instruction *decode(int word);
-    bool validate(int word) const;
-};
-
 class CPU
 {
 private:

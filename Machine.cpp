@@ -53,49 +53,6 @@ void Memory::clear()
     }
 }
 
-// InstructionDecoder
-Instruction *InstructionDecoder::decode(int word)
-{
-    if (!validate(word))
-        return nullptr;
-
-    int opcode = word / 4096;
-
-    switch (opcode)
-    {
-    case 1:
-        return new loadfrommemory(word);
-    case 2:
-        return new loadimmediate(word);
-    case 3:
-        return new store(word);
-    case 4:
-        return new moveinstruction(word);
-    case 5:
-        return new addinteger(word);
-    case 6:
-        return new addfloat(word);
-    case 7:
-        return new orInstruction(word);
-    case 8:
-        return new andInstruction(word);
-    case 9:
-        return new xorInstruction(word);
-    case 10:
-        return new rotate(word);
-    case 11:
-        return new jumpifEqual(word);
-    case 12:
-        return new halt(word);
-    default:
-        return nullptr;
-    }
-}
-bool InstructionDecoder::validate(int word) const
-{
-    return word >= 0 && word <= 65535;
-}
-
 // register classes
 Register::Register() { value = 0; }
 int Register::get() { return value; }

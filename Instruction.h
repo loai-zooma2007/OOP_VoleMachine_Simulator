@@ -1,7 +1,6 @@
 #ifndef INSTRUCTION_H
 #define INSTRUCTION_H
 
-
 #include <string>
 
 class CPU;
@@ -117,5 +116,11 @@ public:
     addfloat(int word);
     void execute(CPU &cpu) override;
     std::string describe() const override;
+};
+class InstructionDecoder
+{
+public:
+    Instruction *decode(int word);
+    bool validate(int word) const;
 };
 #endif // INSTRUCTION_H
