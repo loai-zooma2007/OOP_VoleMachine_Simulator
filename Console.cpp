@@ -115,15 +115,29 @@ void Console::reset()
     emit machineUpdated();
 }
 
-void Console::setRegister(int n, int v)
+void Console::setRegister(int n, const QString &hexValue)
 {
+    bool ok;
+    int v = hexValue.toInt(&ok, 16);
+    if (!ok)
+    {
+        updateStatusMessage(QString("Invalid hex value: %1").arg(hexValue));
+        return;
+    }
     machine.setRegister(n, v);
     updateStatusMessage(QString("Register R%1 updated to 0x%2").arg(QString::number(n, 16).toUpper()).arg(v, 2, 16, QChar('0')).toUpper());
     emit machineUpdated();
 }
 
-void Console::setMemory(int addr, int v)
+void Console::setMemory(int addr, const QString &hexValue)
 {
+    bool ok;
+    int v = hexValue.toInt(&ok, 16);
+    if (!ok)
+    {
+        updateStatusMessage(QString("Invalid hex value: %1").arg(hexValue));
+        return;
+    }
     machine.setMemory(addr, v);
     updateStatusMessage(QString("Memory [0x%1] updated to 0x%2").arg(QString::number(addr, 16).toUpper()).arg(v, 2, 16, QChar('0')).toUpper());
     emit machineUpdated();

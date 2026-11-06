@@ -134,7 +134,7 @@ ApplicationWindow
                 {
                     text: "⚡ Run All"
                     enabled: !vm.isHalted
-                    onClicked: vm.run()
+                    onClicked: vm.runAll()
                 }
 
                 Button 

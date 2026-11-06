@@ -9,9 +9,9 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
 
     Console console;
-    engine.rootContext()->setContextProperty("console", &console);
+    engine.rootContext()->setContextProperty("vm", &console);
 
-    const QUrl url(u"qrc:/main.qml"_qs);
+    const QUrl url(u"qrc:/Simulator.qml"_qs);
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated, &app, [url](QObject *obj, const QUrl &objUrl)
                      {
     if (!obj && url == objUrl)

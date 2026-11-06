@@ -36,8 +36,8 @@ public:
     Q_INVOKABLE void runAll();
     Q_INVOKABLE void reset();
 
-    Q_INVOKABLE void setRegister(int n, int v);
-    Q_INVOKABLE void setMemory(int addr, int v);
+    Q_INVOKABLE void setRegister(int n, const QString &hexValue);
+    Q_INVOKABLE void setMemory(int addr, const QString &hexValue);
 
 signals:
     void machineUpdated();
