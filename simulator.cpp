@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
     Console console;
     engine.rootContext()->setContextProperty("vm", &console);
 
-    const QUrl url(u"qrc:/Simulator.qml"_qs);
+    const QUrl url(u"qrc:/qt/qml/appVoleMachine_ui/Simulator.qml"_qs);
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated, &app, [url](QObject *obj, const QUrl &objUrl)
                      {
     if (!obj && url == objUrl)
