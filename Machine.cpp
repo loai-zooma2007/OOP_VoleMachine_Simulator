@@ -1,6 +1,4 @@
 #include "Machine.h"
-#include "Instruction.h"
-#include "ProgramLoader.h"
 
 // screen class
 Screen::Screen() { buffer = ""; }
@@ -312,4 +310,21 @@ void VoleMachine::reset()
     screen.clear();
     cpu.setPC(0);
     cpu.halt(false);
+}
+
+RegisterFile &VoleMachine::getRegisters()
+{
+    return registers;
+}
+Memory &VoleMachine::getMemory()
+{
+    return memory;
+}
+Screen &VoleMachine::getScreen()
+{
+    return screen;
+}
+CPU &VoleMachine::getCPU()
+{
+    return cpu;
 }

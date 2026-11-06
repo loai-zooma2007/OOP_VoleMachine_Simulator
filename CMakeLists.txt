@@ -15,6 +15,7 @@ qt_add_executable(appVoleMachine_ui
     Machine.cpp
     Instruction.cpp
     ProgramLoader.cpp
+    Console.cpp
 )
 
 qt_add_qml_module(appVoleMachine_ui

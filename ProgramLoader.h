@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include "Machine.h"
+#include "Errors.h"
 
 class Program
 {

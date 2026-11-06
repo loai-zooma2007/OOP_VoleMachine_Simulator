@@ -1,5 +1,7 @@
 #ifndef _MACHINE_HPP_
 #define _MACHINE_HPP_
+#include "Instruction.h"
+#include "ProgramLoader.h"
 #include <string>
 #include <map>
 #include <cstdint>
@@ -131,6 +133,11 @@ public:
     bool step();
     void runAll();
     void reset();
+
+    RegisterFile &getRegisters();
+    Memory &getMemory();
+    Screen &getScreen();
+    CPU &getCPU();
 };
 
 #endif
