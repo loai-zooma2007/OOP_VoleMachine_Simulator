@@ -1,6 +1,5 @@
 #ifndef _MACHINE_HPP_
 #define _MACHINE_HPP_
-#include "Instruction.h"
 #include "ProgramLoader.h"
 #include <string>
 #include <map>

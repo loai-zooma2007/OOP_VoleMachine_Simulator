@@ -1,6 +1,6 @@
-import QtQuick 
-import QtQuick.Controls 
-import QtQuick.Layouts 
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
 import QtQuick.Dialogs
 ApplicationWindow 
 { 
@@ -32,7 +32,7 @@ ApplicationWindow
         onAccepted: {
             var addr = parseInt(startAddrInput.text, 16)
             if (isNaN(addr)) addr = 0
-            vm.loadProgram(fileDialog.fileUrl, addr)
+            vm.loadProgram(fileDialog.selectedFile, addr)
         }
     }
 
@@ -211,7 +211,7 @@ ApplicationWindow
                                     {
                                         editDialog.isRegister = true
                                         editDialog.targetIndex = index
-                                        editInput.text = modelData
+                                        editInput.text = modelData.split("0x")[1]
                                         editDialog.open()
                                     }
                                 }
