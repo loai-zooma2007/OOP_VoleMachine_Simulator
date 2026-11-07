@@ -24,6 +24,43 @@ ApplicationWindow
         property color textSecondary: "#a6adc8"
     }
 
+    component StyledButton: Button
+    {
+        id: ctl
+        property color accent: "#89b4fa"
+        font.bold: true
+        leftPadding: 14
+        rightPadding: 14
+
+        contentItem: Text
+        {
+            text: ctl.text
+            font: ctl.font
+            color: ctl.enabled ? "#cdd6f4" : "#6c7086"
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+        }
+
+        background: Rectangle
+        {
+            implicitHeight: 34
+            implicitWidth: 100
+            radius: 6
+            color: !ctl.enabled ? "#1e1e2e"
+                   : ctl.down ? Qt.darker(ctl.accent, 1.6)
+                   : ctl.hovered ? "#45475a" : "#313244"
+            border.color: ctl.enabled ? ctl.accent : "#45475a"
+            border.width: 1
+        }
+
+        MouseArea
+        {
+            anchors.fill: parent
+            acceptedButtons: Qt.NoButton
+            cursorShape: ctl.enabled ? Qt.PointingHandCursor : Qt.ArrowCursor
+        }
+    }
+
     FileDialog 
     {
         id: fileDialog
@@ -37,47 +74,90 @@ ApplicationWindow
     }
 
     // نافذة حوارية لتعديل الذاكرة والمسجلات (Overwrite Feature)
-    Dialog 
+    Dialog
     {
         id: editDialog
-        title: "Edit Value (Hex)"
-        standardButtons: Dialog.Ok | Dialog.Cancel
+        parent: Overlay.overlay
+        anchors.centerIn: parent
         modal: true
-        x: (parent.width - width) / 2
-        y: (parent.height - height) / 2
+        focus: true
+       
 
         property bool isRegister: true
         property int targetIndex: 0
 
-        ColumnLayout 
+        background: Rectangle
+        {
+            color: theme.bgCard
+            radius: 8
+            border.color: theme.accentBlue
+        }
+
+        header: Label
+        {
+            text: editDialog.isRegister
+                  ? "Edit Register R" + editDialog.targetIndex.toString(16).toUpperCase()
+                  : "Edit Memory [0x" + editDialog.targetIndex.toString(16).toUpperCase().padStart(2, '0') + "]"
+            color: theme.accentBlue
+            font.bold: true
+            padding: 12
+        }
+        
+        footer: Item
+        {
+            implicitHeight: 56
+
+            RowLayout
+            {
+                anchors.fill: parent
+                anchors.margins: 12
+                spacing: 8
+
+                Item { Layout.fillWidth: true }
+
+                StyledButton
+                {
+                    text: "Cancel"
+                    accent: "#f38ba8"
+                    onClicked: editDialog.reject()
+                }
+
+                StyledButton
+                {
+                    text: "OK"
+                    accent: "#a6e3a1"
+                    onClicked: editDialog.accept()
+                }
+            }
+        }
+
+        ColumnLayout
         {
             spacing: 10
-            Label 
-            {
-                text: editDialog.isRegister ? "Set Value for Register R" + editDialog.targetIndex.toString(16).toUpperCase() : "Set Value for Memory [0x" + editDialog.targetIndex.toString(16).toUpperCase().padStart(2, '0') + "]"
-                color: theme.textPrimary
-            }
-            TextField 
+            Label { text: "New value (Hex, 00 - FF):"; color: theme.textPrimary }
+            TextField
             {
                 id: editInput
                 text: "00"
                 maximumLength: 2
+                color: theme.textPrimary
                 font.family: "Monospace"
                 font.bold: true
                 Layout.fillWidth: true
+                validator: RegularExpressionValidator { regularExpression: /[0-9A-Fa-f]{0,2}/ }
+                background: Rectangle { color: theme.bgInput; radius: 4; border.color: theme.border }
+                onAccepted: editDialog.accept()
             }
         }
 
-        onAccepted: 
+        onOpened: { editInput.forceActiveFocus(); editInput.selectAll() }
+
+        onAccepted:
         {
-            if (isRegister) 
-            {
+            if (isRegister)
                 vm.setRegister(targetIndex, editInput.text)
-            } 
-            else 
-            {
+            else
                 vm.setMemory(targetIndex, editInput.text)
-            }
         }
     }
 
@@ -104,9 +184,10 @@ ApplicationWindow
                 anchors.margins: 10
                 spacing: 10
 
-                Button 
+                StyledButton
                 {
                     text: "📁 Load Program"
+                    accent: "#89b4fa"
                     onClicked: fileDialog.open()
                 }
 
@@ -114,6 +195,8 @@ ApplicationWindow
                 TextField 
                 {
                     id: startAddrInput
+                    color: "#cdd6f4"
+                    background: Rectangle { color: "#313244"; radius: 4; border.color: "#45475a" }
                     text: "00"
                     maximumLength: 2
                     font.family: "Monospace"
@@ -123,23 +206,26 @@ ApplicationWindow
 
                 Rectangle { width: 1; height: 20; color: theme.border }
 
-                Button 
+                StyledButton
                 {
                     text: "▶ Single Step"
+                    accent: "#a6e3a1"
                     enabled: !vm.isHalted
                     onClicked: vm.step()
                 }
 
-                Button 
+               StyledButton
                 {
                     text: "⚡ Run All"
+                    accent: "#f9e2af"
                     enabled: !vm.isHalted
                     onClicked: vm.runAll()
                 }
 
-                Button 
+                StyledButton
                 {
                     text: "🔄 Clear / Reset"
+                    accent: "#f38ba8"
                     onClicked: vm.reset()
                 }
 
@@ -209,6 +295,8 @@ ApplicationWindow
                                 MouseArea 
                                 {
                                     anchors.fill: parent
+                                    cursorShape: Qt.PointingHandCursor
+                                    hoverEnabled: true
                                     onClicked: 
                                     {
                                         editDialog.isRegister = true
@@ -331,6 +419,8 @@ ApplicationWindow
                             MouseArea
                             {
                                 anchors.fill: parent
+                                cursorShape: Qt.PointingHandCursor
+                                hoverEnabled: true
                                 onClicked:
                                 {
                                     editDialog.isRegister = false
