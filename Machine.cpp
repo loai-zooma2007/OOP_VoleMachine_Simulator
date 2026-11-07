@@ -4,7 +4,17 @@
 Screen::Screen() { buffer = ""; }
 void Screen::onWrite(int value)
 {
-    buffer += static_cast<char>(value);
+    value &= 0xff;
+    if (value >= 32 && value <= 126)
+        buffer += static_cast<char>(value);
+    else
+    {
+        const char *hex = "0123456789ABCDEF";
+        buffer += '[';
+        buffer += hex[value >> 4];
+        buffer += hex[value & 0xF];
+        buffer += ']';
+    }
 }
 std::string Screen::getText() { return buffer; }
 void Screen::clear() { buffer = ""; }

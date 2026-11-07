@@ -168,9 +168,11 @@ ApplicationWindow
             // Panel اليسار: المسجلات + Screen Output
             ColumnLayout 
             {
-                Layout.preferredWidth: 280
-                Layout.
-                fillHeight: true
+               Layout.fillWidth: false
+               Layout.preferredWidth: 280
+               Layout.minimumWidth: 280
+               Layout.maximumWidth: 280
+               Layout.fillHeight: true
                 spacing: 10
 
                 // CPU Registers (16 General Purpose Registers)
@@ -251,6 +253,7 @@ ApplicationWindow
                             {
                                 text: vm.screenText
                                 readOnly: true
+                                wrapMode: TextArea.Wrap
                                 color: theme.accentGreen
                                 font.family: "Monospace"
                                 font.pixelSize: 13
@@ -266,6 +269,7 @@ ApplicationWindow
             {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
+                Layout.minimumWidth: 16 * 46 + 20
                 color: theme.bgCard
                 radius: 8
                 border.color: theme.border
@@ -282,7 +286,6 @@ ApplicationWindow
                     Row 
                     {
                         spacing: 2
-                        Item { width: 25; height: 20 } // فاصل عمود الصفوف
                         Repeater 
                         {
                             model: 16
@@ -306,7 +309,8 @@ ApplicationWindow
                     GridView 
                     {
                         id: memoryGrid
-                        Layout.fillWidth: true
+                        Layout.fillWidth: false
+                        Layout.preferredWidth: 16 * 46
                         Layout.fillHeight: true
                         cellWidth: 46
                         cellHeight: 32
