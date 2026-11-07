@@ -1,6 +1,7 @@
 #ifndef PROGRAMLOADER_H
 #define PROGRAMLOADER_H
 #include <vector>
+#include "Errors.h"
 #include "Instruction.h"
 class Program
 {

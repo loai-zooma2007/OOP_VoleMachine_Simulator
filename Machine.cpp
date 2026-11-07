@@ -183,12 +183,22 @@ void CPU::execute(Instruction *i)
 }
 void CPU::step()
 {
-    if (!halted)
+    if (halted)
+        return;
+
+    int pcBefore = PC;
+    fetch();
+    Instruction *i = decode();
+
+    if (i == nullptr)
     {
-        fetch();
-        Instruction *i = decode();
-        execute(i);
+        PC = pcBefore;
+        char buf[80];
+        std::snprintf(buf, sizeof(buf),
+                      "Invalid instruction 0x%04X at address 0x%02X", IR, pcBefore);
+        throw InvalidInstructionException(buf);
     }
+    execute(i);
 }
 RegisterFile &CPU::getRegisters()
 {
@@ -267,8 +277,15 @@ bool VoleMachine::step()
 }
 void VoleMachine::runAll()
 {
+    const long MAX_STEPS = 100000;
+    long steps = 0;
+
     while (!cpu.isHalted())
+    {
+        if (++steps > MAX_STEPS)
+            throw VoleException("Program did not halt after 100000 steps (possible infinite loop)");
         cpu.step();
+    }
 }
 void VoleMachine::reset()
 {

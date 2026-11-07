@@ -81,6 +81,8 @@ ApplicationWindow
         anchors.centerIn: parent
         modal: true
         focus: true
+        width: 320
+        padding: 16
        
 
         property bool isRegister: true
@@ -133,6 +135,7 @@ ApplicationWindow
 
         ColumnLayout
         {
+            width: parent.width
             spacing: 10
             Label { text: "New value (Hex, 00 - FF):"; color: theme.textPrimary }
             TextField
@@ -301,7 +304,9 @@ ApplicationWindow
                                     {
                                         editDialog.isRegister = true
                                         editDialog.targetIndex = index
-                                        editInput.text = modelData.split("0x")[1]
+                                        var v = String(modelData)
+                                        var p = v.indexOf("0x")
+                                        editInput.text = (p >= 0) ? v.substring(p + 2) : v
                                         editDialog.open()
                                     }
                                 }

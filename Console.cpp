@@ -77,19 +77,15 @@ void Console::step()
     try
     {
         if (!machine.step())
-        {
             updateStatusMessage("Execution halted.");
-        }
         else
-        {
             updateStatusMessage("Executed 1 step. PC: " + pc());
-        }
-        emit machineUpdated();
     }
     catch (const VoleException &e)
     {
         updateStatusMessage(QString("Execution Error: %1").arg(e.what()));
     }
+    emit machineUpdated();
 }
 
 void Console::runAll()
@@ -98,12 +94,12 @@ void Console::runAll()
     {
         machine.runAll();
         updateStatusMessage("Program execution completed.");
-        emit machineUpdated();
     }
     catch (const VoleException &e)
     {
         updateStatusMessage(QString("Runtime Error: %1").arg(e.what()));
     }
+    emit machineUpdated();
 }
 
 void Console::reset()
