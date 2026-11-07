@@ -265,16 +265,17 @@ ApplicationWindow
             }
 
             // Panel اليمين: الذاكرة المصممة كمصفوفة 16×16 بالتمام والكمال
-            Rectangle 
-            {
+           // Panel اليمين: الذاكرة 16×16 بتملّا المساحة المتاحة
+           Rectangle
+           {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
-                Layout.minimumWidth: 16 * 46 + 20
+                Layout.minimumWidth: 16 * 40 + 20
                 color: theme.bgCard
                 radius: 8
                 border.color: theme.border
 
-                ColumnLayout 
+                ColumnLayout
                 {
                     anchors.fill: parent
                     anchors.margins: 10
@@ -283,17 +284,17 @@ ApplicationWindow
                     Label { text: "Main Memory Matrix (256 Bytes — 16x16 Grid)"; color: theme.accentYellow; font.bold: true }
 
                     // Header الأعمدة (0 to F)
-                    Row 
+                    Row
                     {
-                        spacing: 2
-                        Repeater 
+                        spacing: 0
+                        Repeater
                         {
                             model: 16
-                            Rectangle 
+                            Rectangle
                             {
-                                width: 44; height: 20
+                                width: memoryGrid.cellWidth; height: 20
                                 color: "transparent"
-                                Text 
+                                Text
                                 {
                                     anchors.centerIn: parent
                                     text: index.toString(16).toUpperCase()
@@ -305,32 +306,32 @@ ApplicationWindow
                         }
                     }
 
-                    // مصفوفة الـ 16×16 مع عناوين الصفوف (0_ to F_)
-                    GridView 
+                    GridView
                     {
                         id: memoryGrid
-                        Layout.fillWidth: false
-                        Layout.preferredWidth: 16 * 46
+                        Layout.fillWidth: true
                         Layout.fillHeight: true
-                        cellWidth: 46
-                        cellHeight: 32
+                        cellWidth: Math.max(1, Math.floor(width / 16))
+                        cellHeight: Math.max(1, Math.floor(height / 16))
                         clip: true
+                        interactive: false
                         model: vm.memory
 
-                        delegate: Rectangle 
+                        delegate: Rectangle
                         {
                             id: cellRect
-                            width: 44; height: 30
+                            width: memoryGrid.cellWidth - 2
+                            height: memoryGrid.cellHeight - 2
                             property bool isPC: index === parseInt(vm.pc, 16)
                             color: isPC ? theme.accentRed : theme.bgInput
                             radius: 4
                             border.color: isPC ? "#ffffff" : theme.border
                             border.width: isPC ? 2 : 1
 
-                            MouseArea 
+                            MouseArea
                             {
                                 anchors.fill: parent
-                                onClicked: 
+                                onClicked:
                                 {
                                     editDialog.isRegister = false
                                     editDialog.targetIndex = index
@@ -339,14 +340,14 @@ ApplicationWindow
                                 }
                             }
 
-                            Text 
+                            Text
                             {
                                 anchors.centerIn: parent
                                 text: modelData
                                 color: cellRect.isPC ? "#11111b" : theme.textPrimary
                                 font.bold: true
                                 font.family: "Monospace"
-                                font.pixelSize: 12
+                                font.pixelSize: Math.max(10, Math.min(memoryGrid.cellHeight * 0.45, 22))
                             }
                         }
                     }
